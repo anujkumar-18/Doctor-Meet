@@ -10,7 +10,8 @@ import {
   UserButton,
 } from "@clerk/nextjs";
 import { checkUser } from "@/lib/checkUser"; 
-import { Badge, Calendar, Calendar1, CreditCard, LucideCreditCard, ShieldCheck, Stethoscope, User } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Calendar, Calendar1, CreditCard, LucideCreditCard, ShieldCheck, Stethoscope, User } from "lucide-react";
 import { checkAndlocateCredits } from "../actions/credits";
 
 

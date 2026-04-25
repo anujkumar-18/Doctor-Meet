@@ -1,7 +1,7 @@
 
 import { getCurrentUser } from "@/components/actions/onboarding";
 import { redirect } from "next/navigation";
-import React, { Children } from "react";
+import React from "react";
 
 export const metadata = {
   title: "Onboarding - MedMeet",

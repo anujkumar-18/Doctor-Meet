@@ -14,7 +14,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Loader2, Stethoscope, User } from "lucide-react";
 import useFetch from "@/hooks/use-fetch";
-import { setUserRole } from "@/actions/onboarding";
+import { setUserRole } from "@/components/actions/onboarding";
 import { useRouter } from "next/navigation";
 import { Label } from "@/components/ui/label";
 import {

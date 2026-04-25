@@ -1,18 +1,18 @@
 import PageHeader from "@/components/page-header";
 import { Stethoscope } from "lucide-react";
-import React, { Children } from "react";
+import React from "react";
 
-export const metdata = {
+export const metadata = {
   title: "Doctor Dashboard - DocMeet",
   description: "Manage your appointments and availability",
 };
 
-const DoctorDashboardLayout = () => {
+const DoctorDashboardLayout = ({ children }) => {
   return (
     <div className="container mx-auto px-4 py-8">
       <PageHeader icon={<Stethoscope/>} title={"Doctor Dashboard"}/>
 
-      {Children}
+      {children}
     </div>
   );
 };
