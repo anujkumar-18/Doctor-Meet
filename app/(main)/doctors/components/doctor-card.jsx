@@ -41,15 +41,27 @@ export function DoctorCard({ doctor }) {
               {doctor.description}
             </div>
 
-            <Button
-              asChild
-              className="w-full bg-emerald-500 hover:bg-emerald-600 mt-2"
-            >
-              <Link href={`/doctors/${doctor.specialty}/${doctor.id}`}>
-                <Calendar className="h-4 w-4 mr-2" />
-                View Profile & Book
-              </Link>
-            </Button>
+            <div className="grid grid-cols-2 gap-2 mt-2">
+              <Button
+                asChild
+                className="bg-emerald-500 hover:bg-emerald-600"
+              >
+                <Link href={`/doctors/${doctor.specialty}/${doctor.id}`}>
+                  <Calendar className="h-4 w-4 mr-2" />
+                  Book
+                </Link>
+              </Button>
+              <Button
+                variant="outline"
+                className="border-emerald-500 text-emerald-500 hover:bg-emerald-50"
+                asChild
+              >
+                <a href="tel:8115462049">
+                  <User className="h-4 w-4 mr-2" />
+                  Call
+                </a>
+              </Button>
+            </div>
           </div>
         </div>
       </CardContent>

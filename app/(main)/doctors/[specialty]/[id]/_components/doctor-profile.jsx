@@ -100,22 +100,45 @@ export function DoctorProfile({ doctor, availableDays }) {
                   </span>
                 </div>
 
-                <Button
-                  onClick={toggleBooking}
-                  className="w-full bg-emerald-600 hover:bg-emerald-700 mt-4"
-                >
-                  {showBooking ? (
-                    <>
-                      Hide Booking
-                      <ChevronUp className="ml-2 h-4 w-4" />
-                    </>
-                  ) : (
-                    <>
-                      Book Appointment
-                      <ChevronDown className="ml-2 h-4 w-4" />
-                    </>
-                  )}
-                </Button>
+                <div className="grid grid-cols-1 gap-2 w-full mt-4">
+                  <Button
+                    onClick={toggleBooking}
+                    className="bg-emerald-600 hover:bg-emerald-700"
+                  >
+                    {showBooking ? (
+                      <>
+                        Hide Booking
+                        <ChevronUp className="ml-2 h-4 w-4" />
+                      </>
+                    ) : (
+                      <>
+                        Book Appointment
+                        <ChevronDown className="ml-2 h-4 w-4" />
+                      </>
+                    )}
+                  </Button>
+                  
+                  <div className="grid grid-cols-2 gap-2">
+                    <Button
+                      variant="outline"
+                      className="border-emerald-600 text-emerald-400 hover:bg-emerald-900/20"
+                      asChild
+                    >
+                      <a href="tel:8115462049">
+                        Call Now
+                      </a>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="border-emerald-600 text-emerald-400 hover:bg-emerald-900/20"
+                      asChild
+                    >
+                      <Link href={`/video-call?sessionId=direct&token=direct&appointmentId=direct`}>
+                        Video Call
+                      </Link>
+                    </Button>
+                  </div>
+                </div>
               </div>
             </CardContent>
           </Card>

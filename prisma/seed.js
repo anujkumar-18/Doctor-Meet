@@ -2,12 +2,12 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log("Seeding a wide range of doctors across India...");
+  console.log("Seeding a wide range of doctors across India with availability...");
 
   const doctors = [
     {
       clerkUserId: "dr_ananya_sharma",
-      name: "Dr. Ananya Sharma",
+      name: "Ananya Sharma",
       email: "ananya.sharma@doctorsmeet.in",
       imageUrl: "https://images.unsplash.com/photo-1559839734-2b71f1536783?q=80&w=200&h=200&auto=format&fit=crop",
       role: "DOCTOR",
@@ -18,7 +18,7 @@ async function main() {
     },
     {
       clerkUserId: "dr_rajesh_khanna",
-      name: "Dr. Rajesh Khanna",
+      name: "Rajesh Khanna",
       email: "rajesh.khanna@doctorsmeet.in",
       imageUrl: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?q=80&w=200&h=200&auto=format&fit=crop",
       role: "DOCTOR",
@@ -29,7 +29,7 @@ async function main() {
     },
     {
       clerkUserId: "dr_sarah_johnson",
-      name: "Dr. Sarah Johnson",
+      name: "Sarah Johnson",
       email: "sarah.johnson@doctorsmeet.in",
       imageUrl: "https://images.unsplash.com/photo-1594824476967-48c8b964273f?q=80&w=200&h=200&auto=format&fit=crop",
       role: "DOCTOR",
@@ -40,7 +40,7 @@ async function main() {
     },
     {
       clerkUserId: "dr_amit_patel",
-      name: "Dr. Amit Patel",
+      name: "Amit Patel",
       email: "amit.patel@doctorsmeet.in",
       imageUrl: "https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=200&h=200&auto=format&fit=crop",
       role: "DOCTOR",
@@ -51,7 +51,7 @@ async function main() {
     },
     {
       clerkUserId: "dr_priya_iyer",
-      name: "Dr. Priya Iyer",
+      name: "Priya Iyer",
       email: "priya.iyer@doctorsmeet.in",
       imageUrl: "https://images.unsplash.com/photo-1527613426441-4da17471b66d?q=80&w=200&h=200&auto=format&fit=crop",
       role: "DOCTOR",
@@ -62,7 +62,7 @@ async function main() {
     },
     {
       clerkUserId: "dr_vikram_singh",
-      name: "Dr. Vikram Singh",
+      name: "Vikram Singh",
       email: "vikram.singh@doctorsmeet.in",
       imageUrl: "https://images.unsplash.com/photo-1537368910025-700350fe46c7?q=80&w=200&h=200&auto=format&fit=crop",
       role: "DOCTOR",
@@ -73,7 +73,7 @@ async function main() {
     },
     {
       clerkUserId: "dr_sunita_reddy",
-      name: "Dr. Sunita Reddy",
+      name: "Sunita Reddy",
       email: "sunita.reddy@doctorsmeet.in",
       imageUrl: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?q=80&w=200&h=200&auto=format&fit=crop",
       role: "DOCTOR",
@@ -84,7 +84,7 @@ async function main() {
     },
     {
       clerkUserId: "dr_arjun_mehta",
-      name: "Dr. Arjun Mehta",
+      name: "Arjun Mehta",
       email: "arjun.mehta@doctorsmeet.in",
       imageUrl: "https://images.unsplash.com/photo-1622902046580-2b47f47f0871?q=80&w=200&h=200&auto=format&fit=crop",
       role: "DOCTOR",
@@ -95,7 +95,7 @@ async function main() {
     },
     {
       clerkUserId: "dr_meera_nair",
-      name: "Dr. Meera Nair",
+      name: "Meera Nair",
       email: "meera.nair@doctorsmeet.in",
       imageUrl: "https://images.unsplash.com/photo-1550831107-1553da8c8464?q=80&w=200&h=200&auto=format&fit=crop",
       role: "DOCTOR",
@@ -106,7 +106,7 @@ async function main() {
     },
     {
       clerkUserId: "dr_sanjay_gupta",
-      name: "Dr. Sanjay Gupta",
+      name: "Sanjay Gupta",
       email: "sanjay.gupta@doctorsmeet.in",
       imageUrl: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?q=80&w=200&h=200&auto=format&fit=crop",
       role: "DOCTOR",
@@ -117,7 +117,7 @@ async function main() {
     },
     {
       clerkUserId: "dr_kavita_sharma",
-      name: "Dr. Kavita Sharma",
+      name: "Kavita Sharma",
       email: "kavita.sharma@doctorsmeet.in",
       imageUrl: "https://images.unsplash.com/photo-1527613426441-4da17471b66d?q=80&w=200&h=200&auto=format&fit=crop",
       role: "DOCTOR",
@@ -128,7 +128,7 @@ async function main() {
     },
     {
       clerkUserId: "dr_rahul_verma",
-      name: "Dr. Rahul Verma",
+      name: "Rahul Verma",
       email: "rahul.verma@doctorsmeet.in",
       imageUrl: "https://images.unsplash.com/photo-1537368910025-700350fe46c7?q=80&w=200&h=200&auto=format&fit=crop",
       role: "DOCTOR",
@@ -139,7 +139,7 @@ async function main() {
     },
     {
       clerkUserId: "dr_sneha_desai",
-      name: "Dr. Sneha Desai",
+      name: "Sneha Desai",
       email: "sneha.desai@doctorsmeet.in",
       imageUrl: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?q=80&w=200&h=200&auto=format&fit=crop",
       role: "DOCTOR",
@@ -150,7 +150,7 @@ async function main() {
     },
     {
       clerkUserId: "dr_manoj_kumar",
-      name: "Dr. Manoj Kumar",
+      name: "Manoj Kumar",
       email: "manoj.kumar@doctorsmeet.in",
       imageUrl: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?q=80&w=200&h=200&auto=format&fit=crop",
       role: "DOCTOR",
@@ -161,7 +161,7 @@ async function main() {
     },
     {
       clerkUserId: "dr_neha_bansal",
-      name: "Dr. Neha Bansal",
+      name: "Neha Bansal",
       email: "neha.bansal@doctorsmeet.in",
       imageUrl: "https://images.unsplash.com/photo-1594824476967-48c8b964273f?q=80&w=200&h=200&auto=format&fit=crop",
       role: "DOCTOR",
@@ -172,7 +172,7 @@ async function main() {
     },
     {
       clerkUserId: "dr_alok_mishra",
-      name: "Dr. Alok Mishra",
+      name: "Alok Mishra",
       email: "alok.mishra@doctorsmeet.in",
       imageUrl: "https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=200&h=200&auto=format&fit=crop",
       role: "DOCTOR",
@@ -183,15 +183,38 @@ async function main() {
     },
   ];
 
-  for (const doctor of doctors) {
-    await prisma.user.upsert({
-      where: { email: doctor.email },
-      update: doctor,
-      create: doctor,
+  for (const doc of doctors) {
+    const user = await prisma.user.upsert({
+      where: { email: doc.email },
+      update: doc,
+      create: doc,
+    });
+
+    // Create availability for each doctor (9 AM to 5 PM)
+    const today = new Date();
+    today.setHours(9, 0, 0, 0);
+    
+    const end = new Date();
+    end.setHours(17, 0, 0, 0);
+
+    await prisma.availability.upsert({
+      where: { id: `availability_${user.id}` },
+      update: {
+        startTime: today,
+        endTime: end,
+        status: "AVAILABLE",
+      },
+      create: {
+        id: `availability_${user.id}`,
+        doctorId: user.id,
+        startTime: today,
+        endTime: end,
+        status: "AVAILABLE",
+      },
     });
   }
 
-  console.log("Seeding of " + doctors.length + " doctors completed successfully!");
+  console.log("Seeding of " + doctors.length + " doctors and their availability completed successfully!");
 }
 
 main()
