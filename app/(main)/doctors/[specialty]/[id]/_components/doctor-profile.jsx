@@ -130,14 +130,27 @@ export function DoctorProfile({ doctor, availableDays }) {
                     </Button>
                     <Button
                       variant="outline"
-                      className="border-emerald-600 text-emerald-400 hover:bg-emerald-900/20"
+                      className="border-green-600 text-green-400 hover:bg-green-900/20"
                       asChild
                     >
-                      <Link href={`/video-call?sessionId=direct&token=direct&appointmentId=direct`}>
-                        Video Call
-                      </Link>
+                      <a 
+                        href="https://wa.me/918115462049" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                      >
+                        WhatsApp
+                      </a>
                     </Button>
                   </div>
+                  <Button
+                    variant="outline"
+                    className="w-full border-emerald-600 text-emerald-400 hover:bg-emerald-900/20"
+                    asChild
+                  >
+                    <Link href={`/video-call?sessionId=direct&token=direct&appointmentId=direct`}>
+                      Video Call
+                    </Link>
+                  </Button>
                 </div>
               </div>
             </CardContent>

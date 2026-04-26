@@ -1,4 +1,4 @@
-import { User, Star, Calendar } from "lucide-react";
+import { User, Star, Calendar, MessageSquare } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -59,6 +59,20 @@ export function DoctorCard({ doctor }) {
                 <a href="tel:8115462049">
                   <User className="h-4 w-4 mr-2" />
                   Call
+                </a>
+              </Button>
+              <Button
+                variant="outline"
+                className="border-green-500 text-green-500 hover:bg-green-50"
+                asChild
+              >
+                <a 
+                  href="https://wa.me/918115462049" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                >
+                  <MessageSquare className="h-4 w-4 mr-2" />
+                  WhatsApp
                 </a>
               </Button>
             </div>

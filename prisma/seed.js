@@ -2,7 +2,7 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log("Seeding a wide range of doctors across India with availability...");
+  console.log("Seeding doctors with 7-day availability and WhatsApp support...");
 
   const doctors = [
     {
@@ -190,31 +190,36 @@ async function main() {
       create: doc,
     });
 
-    // Create availability for each doctor (9 AM to 5 PM)
-    const today = new Date();
-    today.setHours(9, 0, 0, 0);
-    
-    const end = new Date();
-    end.setHours(17, 0, 0, 0);
+    // Create availability for each doctor for the next 7 days
+    for (let i = 0; i < 7; i++) {
+      const date = new Date();
+      date.setDate(date.getDate() + i);
+      
+      const startTime = new Date(date);
+      startTime.setHours(9, 0, 0, 0);
+      
+      const endTime = new Date(date);
+      endTime.setHours(17, 0, 0, 0);
 
-    await prisma.availability.upsert({
-      where: { id: `availability_${user.id}` },
-      update: {
-        startTime: today,
-        endTime: end,
-        status: "AVAILABLE",
-      },
-      create: {
-        id: `availability_${user.id}`,
-        doctorId: user.id,
-        startTime: today,
-        endTime: end,
-        status: "AVAILABLE",
-      },
-    });
+      await prisma.availability.upsert({
+        where: { id: `availability_${user.id}_${i}` },
+        update: {
+          startTime,
+          endTime,
+          status: "AVAILABLE",
+        },
+        create: {
+          id: `availability_${user.id}_${i}`,
+          doctorId: user.id,
+          startTime,
+          endTime,
+          status: "AVAILABLE",
+        },
+      });
+    }
   }
 
-  console.log("Seeding of " + doctors.length + " doctors and their availability completed successfully!");
+  console.log("Seeding of " + doctors.length + " doctors and 7-day availability completed successfully!");
 }
 
 main()
