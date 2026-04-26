@@ -9,8 +9,8 @@ import { ThemeProvider } from "@/components/theme-provider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Doctors Appointment App",
-  description: "Connect with doctors anytime, anywhere",
+  title: "Doctors Meet - Modern Healthcare Platform",
+  description: "Connect with doctors anytime, anywhere for easy, fast, and accessible healthcare.",
 };
 
 export default function RootLayout({ children }) {

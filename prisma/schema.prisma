@@ -22,6 +22,12 @@ model User {
   
   // Patient-specific fields
   credits           Int       @default(2) // Accumulated credit balance
+  bloodGroup        String?
+  allergies         String?   @db.Text
+  medicalHistory    String?   @db.Text
+  weight            Float?
+  height            Float?
+  age               Int?
   
   // Doctor-specific fields
   specialty         String?
