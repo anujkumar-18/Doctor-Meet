@@ -6,6 +6,8 @@ import {
   ShieldCheck,
   Stethoscope,
   User,
+  Menu,
+  Home,
 } from "lucide-react";
 import Link from "next/link";
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
@@ -23,15 +25,30 @@ export default async function Header() {
   return (
     <header className="fixed top-0 w-full border-b bg-background/80 backdrop-blur-md z-10 supports-[backdrop-filter]:bg-background/60">
       <nav className="container mx-auto px-4 h-16 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 cursor-pointer">
-          <Image
-            src="/logo-single.png"
-            alt="Medimeet Logo"
-            width={200}
-            height={60}
-            className="h-10 w-auto object-contain"
-          />
-        </Link>
+        <div className="flex items-center gap-4 lg:gap-8">
+          <Link href="/" className="flex items-center gap-2 cursor-pointer">
+            <Image
+              src="/logo-single.png"
+              alt="Medimeet Logo"
+              width={200}
+              height={60}
+              className="h-10 w-auto object-contain"
+            />
+          </Link>
+
+          {/* Desktop Navigation */}
+          <div className="hidden lg:flex items-center gap-6">
+            <Link href="/" className="text-sm font-medium text-gray-300 hover:text-emerald-400 transition-colors">
+              Home
+            </Link>
+            <Link href="/doctors" className="text-sm font-medium text-gray-300 hover:text-emerald-400 transition-colors">
+              Find Doctors
+            </Link>
+            <Link href="/#pricing" className="text-sm font-medium text-gray-300 hover:text-emerald-400 transition-colors">
+              About & Pricing
+            </Link>
+          </div>
+        </div>
 
         {/* Action Buttons */}
         <div className="flex items-center space-x-2">
@@ -158,6 +175,20 @@ export default async function Header() {
               afterSignOutUrl="/"
             />
           </SignedIn>
+
+          {/* Mobile Quick Links */}
+          <div className="flex lg:hidden items-center gap-1">
+            <Link href="/">
+              <Button variant="ghost" size="icon" className="text-gray-400">
+                <Home className="h-5 w-5" />
+              </Button>
+            </Link>
+            <Link href="/doctors">
+              <Button variant="ghost" size="icon" className="text-gray-400">
+                <Stethoscope className="h-5 w-5" />
+              </Button>
+            </Link>
+          </div>
         </div>
       </nav>
     </header>

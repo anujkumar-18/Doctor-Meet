@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { format } from "date-fns";
@@ -12,6 +13,7 @@ import useFetch from "@/hooks/use-fetch";
 
 export function AppointmentForm({ doctorId, slot, onBack, onComplete }) {
   const [description, setDescription] = useState("");
+  const [duration, setDuration] = useState("");
 
   // Use the useFetch hook to handle loading, data, and error states
   const { loading, data, fn: submitBooking } = useFetch(bookAppointment);
@@ -25,7 +27,7 @@ export function AppointmentForm({ doctorId, slot, onBack, onComplete }) {
     formData.append("doctorId", doctorId);
     formData.append("startTime", slot.startTime);
     formData.append("endTime", slot.endTime);
-    formData.append("description", description);
+    formData.append("description", `Problem duration: ${duration}\n\n${description}`);
 
     // Submit booking using the function from useFetch
     await submitBooking(formData);
@@ -72,21 +74,37 @@ export function AppointmentForm({ doctorId, slot, onBack, onComplete }) {
         </div>
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="description">
-          Describe your medical concern (optional)
-        </Label>
-        <Textarea
-          id="description"
-          placeholder="Please provide any details about your medical concern or what you'd like to discuss in the appointment..."
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          className="bg-background border-emerald-900/20 h-32"
-        />
-        <p className="text-sm text-muted-foreground">
-          This information will be shared with the doctor before your
-          appointment.
-        </p>
+      <div className="space-y-4">
+        <div className="space-y-2">
+          <Label htmlFor="duration">
+            Aapko yeh problem kab se hai? (How long have you had this problem?)
+          </Label>
+          <Input
+            id="duration"
+            placeholder="e.g. 2 days, 1 week, etc."
+            value={duration}
+            onChange={(e) => setDuration(e.target.value)}
+            className="bg-background border-emerald-900/20"
+            required
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="description">
+            Describe your medical concern (optional)
+          </Label>
+          <Textarea
+            id="description"
+            placeholder="Please provide any details about your medical concern or what you'd like to discuss in the appointment..."
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="bg-background border-emerald-900/20 h-32"
+          />
+          <p className="text-sm text-muted-foreground">
+            This information will be shared with the doctor before your
+            appointment.
+          </p>
+        </div>
       </div>
 
       <div className="flex justify-between pt-2">
