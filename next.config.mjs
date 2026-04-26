@@ -1,8 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    serverComponentsHmrCache: false, // defaults to true
-  },
+  serverExternalPackages: ["@vonage/server-sdk", "@vonage/auth", "@vonage/video"],
   images: {
     remotePatterns: [
       {
