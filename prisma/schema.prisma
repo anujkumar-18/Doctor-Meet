@@ -39,9 +39,24 @@ model User {
   // Relations
   patientAppointments Appointment[] @relation("PatientAppointments")
   doctorAppointments  Appointment[] @relation("DoctorAppointments")
+  patientReviews      Review[]      @relation("PatientReviews")
+  doctorReviews       Review[]      @relation("DoctorReviews")
   availabilities      Availability[]
   transactions        CreditTransaction[]
   payouts             Payout[]
+}
+
+model Review {
+  id        String   @id @default(uuid())
+  patientId String
+  patient   User     @relation("PatientReviews", fields: [patientId], references: [id])
+  doctorId  String
+  doctor    User     @relation("DoctorReviews", fields: [doctorId], references: [id])
+  rating    Int      // 1 to 5 stars
+  comment   String?  @db.Text
+  createdAt DateTime @default(now())
+
+  @@index([doctorId])
 }
 
 enum UserRole {

@@ -23,7 +23,7 @@ export default async function DoctorProfileLayout({ children, params }) {
       <PageHeader
         // icon={<Stethoscope />}
         title={"Dr. " + doctor.name}
-        backLink={`/doctors/${doctor.specialty}`}
+        backLink={`/doctors/${encodeURIComponent(doctor.specialty)}`}
         backLabel={`Back to ${doctor.specialty}`}
       />
 

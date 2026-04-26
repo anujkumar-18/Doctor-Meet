@@ -37,9 +37,19 @@ export function AppointmentForm({ doctorId, slot, onBack, onComplete }) {
       if (data.success) {
         toast.success("Appointment booked successfully!");
         onComplete();
+      } else {
+        toast.error(data.error || "Failed to book appointment. Please try again.");
       }
     }
   }, [data]);
+
+  const { error } = useFetch(bookAppointment); // To capture direct throw errors if any
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error.message || "An unexpected error occurred.");
+    }
+  }, [error]);
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">

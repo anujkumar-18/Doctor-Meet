@@ -46,7 +46,7 @@ export function DoctorCard({ doctor }) {
                 asChild
                 className="bg-emerald-500 hover:bg-emerald-600"
               >
-                <Link href={`/doctors/${doctor.specialty}/${doctor.id}`}>
+                <Link href={`/doctors/${encodeURIComponent(doctor.specialty)}/${doctor.id}`}>
                   <Calendar className="h-4 w-4 mr-2" />
                   Book
                 </Link>

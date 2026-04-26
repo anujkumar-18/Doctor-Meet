@@ -139,7 +139,7 @@ export async function bookAppointment(formData) {
     return { success: true, appointment: appointment };
   } catch (error) {
     console.error("Failed to book appointment:", error);
-    throw new Error("Failed to book appointment:" + error.message);
+    return { success: false, error: error.message || "Failed to book appointment" };
   }
 }
 
@@ -307,7 +307,7 @@ export async function getAvailableTimeSlots(doctorId) {
     });
 
     if (!availability) {
-      throw new Error("No availability set by doctor");
+      return { days: [] };
     }
 
     // Get the next 4 days
