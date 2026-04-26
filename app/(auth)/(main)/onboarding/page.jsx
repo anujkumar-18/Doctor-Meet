@@ -1,10 +1,9 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import {
   Card,
   CardContent,
@@ -12,11 +11,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Loader2, Stethoscope, User } from "lucide-react";
-import useFetch from "@/hooks/use-fetch";
-import { setUserRole } from "@/components/actions/onboarding";
-import { useRouter } from "next/navigation";
+import { User, Stethoscope, Loader2 } from "lucide-react";
 import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
@@ -24,40 +22,26 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { setUserRole } from "@/actions/onboarding";
+import { doctorFormSchema } from "@/lib/schema";
 import { SPECIALTIES } from "@/lib/specialities";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import useFetch from "@/hooks/use-fetch";
+import { useEffect } from "react";
 
-const doctorFormSchema = z.object({
-  specialty: z.string().min(1, "Specialty is required"),
-  experience: z
-    .number({
-      required_error: "Experience is required",
-      invalid_type_error: "Experience must be a number",
-    })
-    .min(1, "Experience must be at least 1 year")
-    .max(70, "Experience must be less than 70 years"),
-  credentialUrl: z
-    .string()
-    .url("Please enter a valid URL")
-    .min(1, "Credential URL is required"),
-  description: z
-    .string()
-    .min(20, "Description must be at least 20 characters")
-    .max(1000, "Description cannot exceed 1000 characters"),
-});
-
-const OnboardingPage = () => {
+export default function OnboardingPage() {
   const [step, setStep] = useState("choose-role");
   const router = useRouter();
-  const { data, fn: submitUserRole, loading } = useFetch(setUserRole);
 
+  // Custom hook for user role server action
+  const { loading, data, fn: submitUserRole } = useFetch(setUserRole);
+
+  // React Hook Form setup with Zod validation
   const {
     register,
     handleSubmit,
     formState: { errors },
-    watch,
     setValue,
+    watch,
   } = useForm({
     resolver: zodResolver(doctorFormSchema),
     defaultValues: {
@@ -68,8 +52,10 @@ const OnboardingPage = () => {
     },
   });
 
+  // Watch specialty value for controlled select component
   const specialtyValue = watch("specialty");
 
+  // Handle patient role selection
   const handlePatientSelection = async () => {
     if (loading) return;
 
@@ -80,51 +66,47 @@ const OnboardingPage = () => {
   };
 
   useEffect(() => {
-    if (data?.success) {
-      toast.success("Role selected successfully!");
+    if (data && data?.success) {
       router.push(data.redirect);
     }
-  }, [data, router]);
+  }, [data]);
 
-  const onDoctorSubmit = async (formDataValues) => {
+  // Added missing onDoctorSubmit function
+  const onDoctorSubmit = async (data) => {
     if (loading) return;
 
     const formData = new FormData();
     formData.append("role", "DOCTOR");
-    formData.append("specialty", formDataValues.specialty);
-    formData.append("experience", formDataValues.experience.toString());
-    formData.append("credentialUrl", formDataValues.credentialUrl);
-    formData.append("description", formDataValues.description);
+    formData.append("specialty", data.specialty);
+    formData.append("experience", data.experience.toString());
+    formData.append("credentialUrl", data.credentialUrl);
+    formData.append("description", data.description);
 
     await submitUserRole(formData);
   };
 
+  // Role selection screen
   if (step === "choose-role") {
     return (
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-        {/* Patient Card */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card
+          className="border-emerald-900/20 hover:border-emerald-700/40 cursor-pointer transition-all"
           onClick={() => !loading && handlePatientSelection()}
-          className="cursor-pointer border-emerald-900/20 transition-all hover:border-emerald-700/40"
         >
-          <CardContent className="flex flex-col items-center pt-6 pb-6 text-center">
-            <div className="mb-4 rounded-full bg-emerald-900/20 p-4">
+          <CardContent className="pt-6 pb-6 flex flex-col items-center text-center">
+            <div className="p-4 bg-emerald-900/20 rounded-full mb-4">
               <User className="h-8 w-8 text-emerald-400" />
             </div>
-
-            <CardTitle className="mb-2 text-xl font-semibold text-white">
+            <CardTitle className="text-xl font-semibold text-white mb-2">
               Join as a Patient
             </CardTitle>
-
             <CardDescription className="mb-4">
-              Book appointments, consult with doctors, and manage your healthcare
-              journey.
+              Book appointments, consult with doctors, and manage your
+              healthcare journey
             </CardDescription>
-
             <Button
-              className="mt-2 w-full bg-emerald-600 hover:bg-emerald-700"
+              className="w-full mt-2 bg-emerald-600 hover:bg-emerald-700"
               disabled={loading}
-              type="button"
             >
               {loading ? (
                 <>
@@ -132,37 +114,32 @@ const OnboardingPage = () => {
                   Processing...
                 </>
               ) : (
-                "Continue as a Patient"
+                "Continue as Patient"
               )}
             </Button>
           </CardContent>
         </Card>
 
-        {/* Doctor Card */}
         <Card
+          className="border-emerald-900/20 hover:border-emerald-700/40 cursor-pointer transition-all"
           onClick={() => !loading && setStep("doctor-form")}
-          className="cursor-pointer border-emerald-900/20 transition-all hover:border-emerald-700/40"
         >
-          <CardContent className="flex flex-col items-center pt-6 pb-6 text-center">
-            <div className="mb-4 rounded-full bg-emerald-900/20 p-4">
+          <CardContent className="pt-6 pb-6 flex flex-col items-center text-center">
+            <div className="p-4 bg-emerald-900/20 rounded-full mb-4">
               <Stethoscope className="h-8 w-8 text-emerald-400" />
             </div>
-
-            <CardTitle className="mb-2 text-xl font-semibold text-white">
+            <CardTitle className="text-xl font-semibold text-white mb-2">
               Join as a Doctor
             </CardTitle>
-
             <CardDescription className="mb-4">
-              Create your professional profile, set your availability, and provide
-              consultations.
+              Create your professional profile, set your availability, and
+              provide consultations
             </CardDescription>
-
             <Button
-              type="button"
-              onClick={() => setStep("doctor-form")}
-              className="mt-2 w-full bg-emerald-600 hover:bg-emerald-700"
+              className="w-full mt-2 bg-emerald-600 hover:bg-emerald-700"
+              disabled={loading}
             >
-              Continue as a Doctor
+              Continue as Doctor
             </Button>
           </CardContent>
         </Card>
@@ -170,46 +147,45 @@ const OnboardingPage = () => {
     );
   }
 
+  // Doctor registration form
   if (step === "doctor-form") {
     return (
       <Card className="border-emerald-900/20">
         <CardContent className="pt-6">
           <div className="mb-6">
-            <CardTitle className="mb-2 text-2xl font-bold text-white">
+            <CardTitle className="text-2xl font-bold text-white mb-2">
               Complete Your Doctor Profile
             </CardTitle>
             <CardDescription>
-              Please provide your professional details for verification.
+              Please provide your professional details for verification
             </CardDescription>
           </div>
 
-          <form className="space-y-6" onSubmit={handleSubmit(onDoctorSubmit)}>
+          <form onSubmit={handleSubmit(onDoctorSubmit)} className="space-y-6">
             <div className="space-y-2">
               <Label htmlFor="specialty">Medical Specialty</Label>
               <Select
                 value={specialtyValue}
-                onValueChange={(value) =>
-                  setValue("specialty", value, { shouldValidate: true })
-                }
+                onValueChange={(value) => setValue("specialty", value)}
               >
                 <SelectTrigger id="specialty">
                   <SelectValue placeholder="Select your specialty" />
                 </SelectTrigger>
-
                 <SelectContent>
                   {SPECIALTIES.map((spec) => (
-                    <SelectItem key={spec.name} value={spec.name}>
-                      <div className="flex items-center gap-2">
-                        <span className="text-emerald-400">{spec.icon}</span>
-                        {spec.name}
-                      </div>
+                    <SelectItem
+                      key={spec.name}
+                      value={spec.name}
+                      className="flex items-center gap-2"
+                    >
+                      <span className="text-emerald-400">{spec.icon}</span>
+                      {spec.name}
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
-
               {errors.specialty && (
-                <p className="mt-1 text-sm font-medium text-red-500">
+                <p className="text-sm font-medium text-red-500 mt-1">
                   {errors.specialty.message}
                 </p>
               )}
@@ -220,11 +196,11 @@ const OnboardingPage = () => {
               <Input
                 id="experience"
                 type="number"
-                placeholder="eg. 5"
+                placeholder="e.g. 5"
                 {...register("experience", { valueAsNumber: true })}
               />
               {errors.experience && (
-                <p className="mt-1 text-sm font-medium text-red-500">
+                <p className="text-sm font-medium text-red-500 mt-1">
                   {errors.experience.message}
                 </p>
               )}
@@ -239,12 +215,12 @@ const OnboardingPage = () => {
                 {...register("credentialUrl")}
               />
               {errors.credentialUrl && (
-                <p className="mt-1 text-sm font-medium text-red-500">
+                <p className="text-sm font-medium text-red-500 mt-1">
                   {errors.credentialUrl.message}
                 </p>
               )}
               <p className="text-sm text-muted-foreground">
-                Please provide a link to your medical degree or certification.
+                Please provide a link to your medical degree or certification
               </p>
             </div>
 
@@ -253,17 +229,17 @@ const OnboardingPage = () => {
               <Textarea
                 id="description"
                 placeholder="Describe your expertise, services, and approach to patient care..."
-                rows={4}
+                rows="4"
                 {...register("description")}
               />
               {errors.description && (
-                <p className="mt-1 text-sm font-medium text-red-500">
+                <p className="text-sm font-medium text-red-500 mt-1">
                   {errors.description.message}
                 </p>
               )}
             </div>
 
-            <div className="flex items-center justify-between pt-2">
+            <div className="pt-2 flex items-center justify-between">
               <Button
                 type="button"
                 variant="outline"
@@ -273,7 +249,6 @@ const OnboardingPage = () => {
               >
                 Back
               </Button>
-
               <Button
                 type="submit"
                 className="bg-emerald-600 hover:bg-emerald-700"
@@ -294,8 +269,4 @@ const OnboardingPage = () => {
       </Card>
     );
   }
-
-  return null;
-};
-
-export default OnboardingPage;
+}
