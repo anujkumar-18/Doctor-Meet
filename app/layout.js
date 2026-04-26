@@ -1,22 +1,19 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/components/ui/theme-provider";
-import Header from "@/components/ui/header";
-import { dark } from "@clerk/themes";
 import { ClerkProvider } from "@clerk/nextjs";
-import { checkUser } from "@/lib/checkUser";
 import { Toaster } from "sonner";
+import Header from "@/components/header";
+import { dark } from "@clerk/themes";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "MediMeet - Doctors Appointment App",
-  description: "Connect with doctors easily and book appointments online.",
+  title: "Doctors Appointment App",
+  description: "Connect with doctors anytime, anywhere",
 };
 
-export default async function RootLayout({ children }) {
-   await checkUser();
-
+export default function RootLayout({ children }) {
   return (
     <ClerkProvider
       appearance={{
@@ -24,21 +21,23 @@ export default async function RootLayout({ children }) {
       }}
     >
       <html lang="en" suppressHydrationWarning>
-        <body className={inter.className}>
+        <head>
+          <link rel="icon" href="/logo.png" sizes="any" />
+        </head>
+        <body className={`${inter.className}`}>
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"
             enableSystem
             disableTransitionOnChange
           >
-            {/* Header (Client Component) */}
             <Header />
-
             <main className="min-h-screen">{children}</main>
-            <Toaster richColors/>
+            <Toaster richColors />
+
             <footer className="bg-muted/50 py-12">
               <div className="container mx-auto px-4 text-center text-gray-200">
-                <p>Made with 💗 by Anuj Kumar</p>
+                <p>Made with 💗 by RoadsideCoder</p>
               </div>
             </footer>
           </ThemeProvider>
