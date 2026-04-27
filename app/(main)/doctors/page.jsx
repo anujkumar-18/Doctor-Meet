@@ -3,6 +3,8 @@ import { LocationSearch } from "./components/location-search";
 import { getAllDoctors } from "@/actions/doctors-listing";
 import { DoctorCard } from "./components/doctor-card";
 import { Suspense } from "react";
+import Link from "next/link";
+import { Card, CardContent } from "@/components/ui/card";
 
 export default async function DoctorsPage({ searchParams }) {
   const { location } = await searchParams;
