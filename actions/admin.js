@@ -261,3 +261,65 @@ export async function approvePayout(formData) {
     throw new Error(`Failed to approve payout: ${error.message}`);
   }
 }
+
+/**
+ * Manually adds credits to a user's account by email
+ */
+export async function addManualCredits(formData) {
+  const isAdmin = await verifyAdmin();
+  if (!isAdmin) throw new Error("Unauthorized");
+
+  const email = formData.get("email");
+  const credits = parseInt(formData.get("credits"));
+
+  if (!email || isNaN(credits)) {
+    throw new Error("Invalid email or credits");
+  }
+
+  try {
+    // Find the user by email
+    const user = await db.user.findFirst({
+      where: {
+        email: email,
+      },
+    });
+
+    if (!user) {
+      throw new Error("User not found with this email");
+    }
+
+    // Add credits in a transaction
+    await db.$transaction(async (tx) => {
+      // Update user's credit balance
+      await tx.user.update({
+        where: {
+          id: user.id,
+        },
+        data: {
+          credits: {
+            increment: credits,
+          },
+        },
+      });
+
+      // Create a transaction record
+      await tx.creditTransaction.create({
+        data: {
+          userId: user.id,
+          amount: credits,
+          type: "ADMIN_ADJUSTMENT",
+          packageId: "manual_add",
+        },
+      });
+    });
+
+    revalidatePath("/admin");
+    revalidatePath("/doctors");
+    revalidatePath("/appointments");
+    
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to add manual credits:", error);
+    throw new Error(`Failed to add credits: ${error.message}`);
+  }
+}

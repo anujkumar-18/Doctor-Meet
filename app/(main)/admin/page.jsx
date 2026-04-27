@@ -3,10 +3,10 @@ import { PendingDoctors } from "./components/pending-doctors";
 import { VerifiedDoctors } from "./components/verified-doctors";
 import { PendingPayouts } from "./components/pending-payouts";
 import {
-  getPendingDoctors,
   getVerifiedDoctors,
   getPendingPayouts,
 } from "@/actions/admin";
+import { UserCredits } from "./components/user-credits";
 
 export default async function AdminPage() {
   // Fetch all data in parallel
@@ -29,6 +29,10 @@ export default async function AdminPage() {
 
       <TabsContent value="payouts" className="border-none p-0">
         <PendingPayouts payouts={pendingPayoutsData.payouts || []} />
+      </TabsContent>
+
+      <TabsContent value="credits" className="border-none p-0">
+        <UserCredits />
       </TabsContent>
     </>
   );
