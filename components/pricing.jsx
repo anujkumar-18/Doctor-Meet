@@ -7,7 +7,7 @@ import { QRPaymentModal } from "./qr-payment-modal";
 const PLANS = [
   {
     name: "Basic",
-    price: 0,
+    price: 100,
     credits: 2,
     features: [
       "Access to all Doctors",
