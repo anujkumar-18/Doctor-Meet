@@ -11,7 +11,11 @@ import { Badge } from "@/components/ui/badge";
 export default async function DoctorsPage({ searchParams }) {
   const { location } = await searchParams;
 
-  if (!location) {
+  let doctors = [];
+  if (location) {
+    const res = await getAllDoctors(location);
+    doctors = res.doctors || [];
+  } else {
     const res = await getAllDoctors(); // Get some doctors to feature
     doctors = res.doctors?.slice(0, 4) || [];
   }
