@@ -147,14 +147,11 @@ export function AppointmentCard({
   };
 
   // Handle join video call
-  const handleJoinVideoCall = async () => {
-    if (tokenLoading) return;
-
-    setAction("video");
-
-    const formData = new FormData();
-    formData.append("appointmentId", appointment.id);
-    await submitTokenRequest(formData);
+  const handleJoinVideoCall = () => {
+    // Direct WhatsApp link as requested by the user for number 8115462049
+    const phoneNumber = "8115462049";
+    const whatsappUrl = `https://wa.me/91${phoneNumber}`;
+    window.open(whatsappUrl, "_blank");
   };
 
   // Handle successful operations
@@ -418,24 +415,10 @@ export function AppointmentCard({
                 </h4>
                 <Button
                   className="w-full bg-emerald-600 hover:bg-emerald-700"
-                  disabled={
-                    !isAppointmentActive() || action === "video" || tokenLoading
-                  }
                   onClick={handleJoinVideoCall}
                 >
-                  {tokenLoading || action === "video" ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Preparing Video Call...
-                    </>
-                  ) : (
-                    <>
-                      <Video className="h-4 w-4 mr-2" />
-                      {isAppointmentActive()
-                        ? "Join Video Call"
-                        : "Video call will be available 30 minutes before appointment"}
-                    </>
-                  )}
+                  <Video className="h-4 w-4 mr-2" />
+                  Join Video Call (WhatsApp)
                 </Button>
               </div>
             )}
