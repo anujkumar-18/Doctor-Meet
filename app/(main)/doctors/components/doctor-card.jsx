@@ -1,4 +1,4 @@
-import { User, Star, Calendar, MessageSquare } from "lucide-react";
+import { User, Star, Calendar, MessageSquare, MapPin } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -36,6 +36,13 @@ export function DoctorCard({ doctor }) {
             <p className="text-sm text-muted-foreground mb-1">
               {doctor.specialty} • {doctor.experience} years experience
             </p>
+
+            {doctor.location && (
+              <div className="flex items-center text-xs text-emerald-400/80 mb-2">
+                <MapPin className="h-3 w-3 mr-1" />
+                {doctor.location}
+              </div>
+            )}
 
             <div className="mt-4 line-clamp-2 text-sm text-muted-foreground mb-4">
               {doctor.description}

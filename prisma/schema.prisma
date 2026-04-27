@@ -34,6 +34,7 @@ model User {
   experience        Int?      // Years of experience
   credentialUrl     String?   // Document URL
   description       String?   @db.Text
+  location          String?   // City or area of the doctor
   verificationStatus VerificationStatus?  @default(PENDING)
   
   // Relations

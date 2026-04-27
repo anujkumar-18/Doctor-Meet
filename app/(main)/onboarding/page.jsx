@@ -49,6 +49,7 @@ export default function OnboardingPage() {
       experience: undefined,
       credentialUrl: "",
       description: "",
+      location: "",
     },
   });
 
@@ -81,6 +82,7 @@ export default function OnboardingPage() {
     formData.append("experience", data.experience.toString());
     formData.append("credentialUrl", data.credentialUrl);
     formData.append("description", data.description);
+    formData.append("location", data.location);
 
     await submitUserRole(formData);
   };
@@ -235,6 +237,20 @@ export default function OnboardingPage() {
               {errors.description && (
                 <p className="text-sm font-medium text-red-500 mt-1">
                   {errors.description.message}
+                </p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="location">Your City / Location</Label>
+              <Input
+                id="location"
+                placeholder="e.g. Delhi, Mumbai, or Area name"
+                {...register("location")}
+              />
+              {errors.location && (
+                <p className="text-sm font-medium text-red-500 mt-1">
+                  {errors.location.message}
                 </p>
               )}
             </div>

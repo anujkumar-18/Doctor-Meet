@@ -5,14 +5,23 @@ import { db } from "@/lib/prisma";
 /**
  * Get doctors by specialty
  */
-export async function getDoctorsBySpecialty(specialty) {
+export async function getDoctorsBySpecialty(specialty, location = null) {
   try {
+    const where = {
+      role: "DOCTOR",
+      verificationStatus: "VERIFIED",
+      specialty: decodeURIComponent(specialty),
+    };
+
+    if (location) {
+      where.location = {
+        contains: location,
+        mode: 'insensitive'
+      };
+    }
+
     const doctors = await db.user.findMany({
-      where: {
-        role: "DOCTOR",
-        verificationStatus: "VERIFIED",
-        specialty: decodeURIComponent(specialty),
-      },
+      where,
       orderBy: {
         name: "asc",
       },

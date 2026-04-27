@@ -49,10 +49,11 @@ export async function setUserRole(formData) {
       const experience = parseInt(formData.get("experience"), 10);
       const credentialUrl = formData.get("credentialUrl");
       const description = formData.get("description");
+      const location = formData.get("location");
 
       // Validate inputs
-      if (!specialty || !experience || !credentialUrl || !description) {
-        throw new Error("All fields are required");
+      if (!specialty || !experience || !credentialUrl || !description || !location) {
+        throw new Error("All fields are required including location");
       }
 
       await db.user.update({
@@ -65,6 +66,7 @@ export async function setUserRole(formData) {
           experience,
           credentialUrl,
           description,
+          location,
           verificationStatus: "PENDING",
         },
       });
