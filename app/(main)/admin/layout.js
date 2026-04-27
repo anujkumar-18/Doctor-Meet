@@ -42,6 +42,10 @@ export default async function AdminLayout({ children }) {
             <Users className="h-4 w-4 mr-2 hidden md:inline" />
             <span>Doctors</span>
           </TabsTrigger>
+          <TabsTrigger
+            value="payouts"
+            className="flex-1 md:flex md:items-center md:justify-start md:px-4 md:py-3 w-full"
+          >
             <CreditCard className="h-4 w-4 mr-2 hidden md:inline" />
             <span>Payouts</span>
           </TabsTrigger>
