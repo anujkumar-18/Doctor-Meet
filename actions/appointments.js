@@ -173,14 +173,13 @@ export async function bookAppointment(formData) {
 async function createVideoSession() {
   try {
     if (!vonage) {
-      console.warn("Vonage client not initialized, skipping video session creation");
-      return "mock_session_id";
+      throw new Error("Vonage Video API is not configured on the server. Please check NEXT_PUBLIC_VONAGE_APPLICATION_ID and VONAGE_PRIVATE_KEY.");
     }
     const session = await vonage.video.createSession({ mediaMode: "routed" });
     return session.sessionId;
   } catch (error) {
     console.error("Failed to create video session:", error);
-    return "mock_session_id"; // Fallback to allow booking even if Vonage fails
+    throw new Error("Failed to create video session: " + error.message);
   }
 }
 
@@ -258,14 +257,19 @@ export async function generateVideoToken(formData) {
     });
 
     // Generate the token with appropriate role and expiration
-    let token = "mock_token";
-    if (vonage) {
-      token = vonage.video.generateClientToken(appointment.videoSessionId, {
-        role: "publisher", // Both doctor and patient can publish streams
-        expireTime: expirationTime,
-        data: connectionData,
-      });
+    if (!vonage) {
+      throw new Error("Vonage Video API is not configured on the server.");
     }
+
+    if (appointment.videoSessionId === "mock_session_id") {
+      throw new Error("This appointment was created without a valid video session. Please book a new appointment.");
+    }
+
+    const token = vonage.video.generateClientToken(appointment.videoSessionId, {
+      role: "publisher", // Both doctor and patient can publish streams
+      expireTime: expirationTime,
+      data: connectionData,
+    });
 
     // Update the appointment with the token
     await db.appointment.update({
