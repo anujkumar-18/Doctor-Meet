@@ -307,6 +307,16 @@ export function AppointmentCard({
                 >
                   View Details
                 </Button>
+                {appointment.status === "SCHEDULED" && isAppointmentActive() && (
+                  <Button
+                    size="sm"
+                    className="bg-emerald-600 hover:bg-emerald-700"
+                    onClick={handleDirectCall}
+                  >
+                    <Phone className="h-4 w-4 mr-1" />
+                    Call Doctor
+                  </Button>
+                )}
               </div>
             </div>
           </div>
