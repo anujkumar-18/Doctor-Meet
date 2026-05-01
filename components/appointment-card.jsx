@@ -15,6 +15,7 @@ import {
   Edit,
   Loader2,
   CheckCircle,
+  Phone,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -147,11 +148,17 @@ export function AppointmentCard({
   };
 
   // Handle join video call
-  const handleJoinVideoCall = () => {
-    // Direct WhatsApp link as requested by the user for number 8115462049
+  const handleJoinVideoCall = async () => {
+    if (tokenLoading) return;
+    const formData = new FormData();
+    formData.append("appointmentId", appointment.id);
+    await submitTokenRequest(formData);
+  };
+
+  // Handle direct phone call
+  const handleDirectCall = () => {
     const phoneNumber = "8115462049";
-    const whatsappUrl = `https://wa.me/91${phoneNumber}`;
-    window.open(whatsappUrl, "_blank");
+    window.open(`tel:+91${phoneNumber}`, "_blank");
   };
 
   // Handle successful operations
@@ -409,17 +416,32 @@ export function AppointmentCard({
 
             {/* Join Video Call Button */}
             {appointment.status === "SCHEDULED" && (
-              <div className="space-y-2">
+              <div className="space-y-3">
                 <h4 className="text-sm font-medium text-muted-foreground">
-                  Video Consultation
+                  Consultation Options
                 </h4>
-                <Button
-                  className="w-full bg-emerald-600 hover:bg-emerald-700"
-                  onClick={handleJoinVideoCall}
-                >
-                  <Video className="h-4 w-4 mr-2" />
-                  Join Video Call (WhatsApp)
-                </Button>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <Button
+                    className="w-full bg-emerald-600 hover:bg-emerald-700"
+                    onClick={handleJoinVideoCall}
+                    disabled={tokenLoading}
+                  >
+                    {tokenLoading ? (
+                      <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    ) : (
+                      <Video className="h-4 w-4 mr-2" />
+                    )}
+                    Join Video Call
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="w-full border-emerald-600 text-emerald-400 hover:bg-emerald-900/20"
+                    onClick={handleDirectCall}
+                  >
+                    <Phone className="h-4 w-4 mr-2" />
+                    Direct Call
+                  </Button>
+                </div>
               </div>
             )}
 

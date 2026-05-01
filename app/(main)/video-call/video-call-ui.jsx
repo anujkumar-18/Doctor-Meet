@@ -12,6 +12,7 @@ import {
   Mic,
   MicOff,
   PhoneOff,
+  Phone,
   User,
 } from "lucide-react";
 import { toast } from "sonner";
@@ -80,11 +81,11 @@ export default function VideoCall({ sessionId, token }) {
         setIsConnected(true);
         setIsLoading(false);
 
-        // THIS IS THE FIX - Initialize publisher AFTER session connects
-        publisherRef.current = window.OT.initPublisher(
-          "publisher", // This targets the div with id="publisher"
+        // Initialize publisher
+        const publisher = window.OT.initPublisher(
+          "publisher",
           {
-            insertMode: "replace", // Change from "append" to "replace"
+            insertMode: "replace",
             width: "100%",
             height: "100%",
             publishAudio: isAudioEnabled,
@@ -95,12 +96,20 @@ export default function VideoCall({ sessionId, token }) {
               console.error("Publisher error:", error);
               toast.error("Error initializing your camera and microphone");
             } else {
-              console.log(
-                "Publisher initialized successfully - you should see your video now"
-              );
+              console.log("Publisher initialized successfully");
+              // Publish the stream after initialization
+              sessionRef.current.publish(publisher, (pubError) => {
+                if (pubError) {
+                  console.error("Publish error:", pubError);
+                  toast.error("Error publishing your stream");
+                } else {
+                  console.log("Stream published successfully");
+                }
+              });
             }
           }
         );
+        publisherRef.current = publisher;
       });
 
       sessionRef.current.on("sessionDisconnected", () => {
@@ -110,19 +119,9 @@ export default function VideoCall({ sessionId, token }) {
       // Connect to the session
       sessionRef.current.connect(token, (error) => {
         if (error) {
+          console.error("Connect error:", error);
           toast.error("Error connecting to video session");
-        } else {
-          // Publish your stream AFTER connecting
-          if (publisherRef.current) {
-            sessionRef.current.publish(publisherRef.current, (error) => {
-              if (error) {
-                console.log("Error publishing stream:", error);
-                toast.error("Error publishing your stream");
-              } else {
-                console.log("Stream published successfully");
-              }
-            });
-          }
+          setIsLoading(false);
         }
       });
     } catch (error) {
@@ -309,12 +308,30 @@ export default function VideoCall({ sessionId, token }) {
               </Button>
             </div>
 
-            <div className="text-center">
+            <div className="text-center space-y-4">
+              <div className="flex flex-col items-center gap-2">
+                <p className="text-muted-foreground text-sm">
+                  {isVideoEnabled ? "Camera on" : "Camera off"} •
+                  {isAudioEnabled ? " Microphone on" : " Microphone off"}
+                </p>
+                
+                <div className="bg-emerald-900/10 border border-emerald-900/20 rounded-lg p-4 max-w-md w-full">
+                  <h3 className="text-emerald-400 font-medium mb-2">Having trouble with video?</h3>
+                  <p className="text-muted-foreground text-xs mb-3">
+                    You can call the doctor directly on their mobile number if the video connection is unstable.
+                  </p>
+                  <Button 
+                    variant="outline" 
+                    className="w-full border-emerald-600 text-emerald-400 hover:bg-emerald-900/20"
+                    onClick={() => window.open("tel:8115462049")}
+                  >
+                    <Phone className="h-4 w-4 mr-2" />
+                    Call Direct: 8115462049
+                  </Button>
+                </div>
+              </div>
+
               <p className="text-muted-foreground text-sm">
-                {isVideoEnabled ? "Camera on" : "Camera off"} •
-                {isAudioEnabled ? " Microphone on" : " Microphone off"}
-              </p>
-              <p className="text-muted-foreground text-sm mt-1">
                 When you're finished with your consultation, click the red
                 button to end the call
               </p>

@@ -7,14 +7,31 @@ import { deductCreditsForAppointment } from "@/actions/credits";
 import { Vonage } from "@vonage/server-sdk";
 import { addDays, addMinutes, format, isBefore, endOfDay } from "date-fns";
 import { Auth } from "@vonage/auth";
+import fs from "fs";
+import path from "path";
 
 // Initialize Vonage Video API client with safeguard
 let vonage = null;
 try {
-  if (process.env.NEXT_PUBLIC_VONAGE_APPLICATION_ID && process.env.VONAGE_PRIVATE_KEY) {
+  const appId = process.env.NEXT_PUBLIC_VONAGE_APPLICATION_ID;
+  const privateKeyPath = process.env.VONAGE_PRIVATE_KEY;
+
+  if (appId && privateKeyPath) {
+    let privateKey = privateKeyPath;
+
+    // Check if the provided path is a file and read it
+    try {
+      const fullPath = path.join(process.cwd(), privateKeyPath);
+      if (fs.existsSync(fullPath)) {
+        privateKey = fs.readFileSync(fullPath, "utf8");
+      }
+    } catch (err) {
+      console.warn("Could not read private key file, using env value as is");
+    }
+
     const credentials = new Auth({
-      applicationId: process.env.NEXT_PUBLIC_VONAGE_APPLICATION_ID,
-      privateKey: process.env.VONAGE_PRIVATE_KEY,
+      applicationId: appId,
+      privateKey: privateKey,
     });
     const options = {};
     vonage = new Vonage(credentials, options);
