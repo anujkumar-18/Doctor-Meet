@@ -26,7 +26,7 @@ export default function Home() {
                 <span className="gradient-title">anytime, anywhere</span>
               </h1>
               <p className="text-muted-foreground text-lg md:text-xl max-w-md">
-                Book appointments, consult via video, and manage your healthcare
+                Book appointments and manage your healthcare
                 journey all in one secure platform.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">

@@ -31,7 +31,7 @@ import {
   addAppointmentNotes,
   markAppointmentCompleted,
 } from "@/actions/doctor";
-import { generateVideoToken } from "@/actions/appointments";
+
 import useFetch from "@/hooks/use-fetch";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
@@ -57,11 +57,7 @@ export function AppointmentCard({
     fn: submitNotes,
     data: notesData,
   } = useFetch(addAppointmentNotes);
-  const {
-    loading: tokenLoading,
-    fn: submitTokenRequest,
-    data: tokenData,
-  } = useFetch(generateVideoToken);
+
   const {
     loading: completeLoading,
     fn: submitMarkCompleted,
@@ -147,13 +143,7 @@ export function AppointmentCard({
     await submitNotes(formData);
   };
 
-  // Handle join video call
-  const handleJoinVideoCall = async () => {
-    if (tokenLoading) return;
-    const formData = new FormData();
-    formData.append("appointmentId", appointment.id);
-    await submitTokenRequest(formData);
-  };
+
 
   // Handle direct phone call
   const handleDirectCall = () => {
@@ -198,16 +188,7 @@ export function AppointmentCard({
     }
   }, [notesData, refetchAppointments, router]);
 
-  useEffect(() => {
-    if (tokenData?.success) {
-      // Redirect to video call page with token and session ID
-      router.push(
-        `/video-call?sessionId=${tokenData.videoSessionId}&token=${tokenData.token}&appointmentId=${appointment.id}`
-      );
-    } else if (tokenData?.error) {
-      setAction(null);
-    }
-  }, [tokenData, appointment.id, router]);
+
 
   // Determine if appointment is active (within 30 minutes of start time)
   const isAppointmentActive = () => {
@@ -424,25 +405,13 @@ export function AppointmentCard({
               </div>
             )}
 
-            {/* Join Video Call Button */}
+            {/* Direct Call Button */}
             {appointment.status === "SCHEDULED" && (
               <div className="space-y-3">
                 <h4 className="text-sm font-medium text-muted-foreground">
                   Consultation Options
                 </h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <Button
-                    className="w-full bg-emerald-600 hover:bg-emerald-700"
-                    onClick={handleJoinVideoCall}
-                    disabled={tokenLoading}
-                  >
-                    {tokenLoading ? (
-                      <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                    ) : (
-                      <Video className="h-4 w-4 mr-2" />
-                    )}
-                    Join Video Call
-                  </Button>
+                <div className="grid grid-cols-1 gap-3">
                   <Button
                     variant="outline"
                     className="w-full border-emerald-600 text-emerald-400 hover:bg-emerald-900/20"
