@@ -37,6 +37,7 @@ model User {
   description       String?   @db.Text
   location          String?   // City or area of the doctor
   verificationStatus VerificationStatus?  @default(PENDING)
+  phone             String?   // Contact number of the doctor
   
   // Relations
   patientAppointments Appointment[] @relation("PatientAppointments")
