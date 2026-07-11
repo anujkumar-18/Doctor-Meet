@@ -55,80 +55,101 @@ export default async function Header() {
           <SignedIn>
             {/* Admin Links */}
             {user?.role === "ADMIN" && (
-              <Link href="/admin">
+              <>
                 <Button
                   variant="outline"
                   className="hidden md:inline-flex items-center gap-2"
+                  asChild
                 >
-                  <ShieldCheck className="h-4 w-4" />
-                  Admin Dashboard
+                  <Link href="/admin">
+                    <ShieldCheck className="h-4 w-4" />
+                    Admin Dashboard
+                  </Link>
                 </Button>
-                <Button variant="ghost" className="md:hidden w-10 h-10 p-0">
-                  <ShieldCheck className="h-4 w-4" />
+                <Button variant="ghost" className="md:hidden w-10 h-10 p-0" asChild>
+                  <Link href="/admin">
+                    <ShieldCheck className="h-4 w-4" />
+                  </Link>
                 </Button>
-              </Link>
+              </>
             )}
 
             {/* Doctor Links */}
             {user?.role === "DOCTOR" && (
-              <Link href="/doctor">
+              <>
                 <Button
                   variant="outline"
                   className="hidden md:inline-flex items-center gap-2"
+                  asChild
                 >
-                  <Stethoscope className="h-4 w-4" />
-                  Doctor Dashboard
+                  <Link href="/doctor">
+                    <Stethoscope className="h-4 w-4" />
+                    Doctor Dashboard
+                  </Link>
                 </Button>
-                <Button variant="ghost" className="md:hidden w-10 h-10 p-0">
-                  <Stethoscope className="h-4 w-4" />
+                <Button variant="ghost" className="md:hidden w-10 h-10 p-0" asChild>
+                  <Link href="/doctor">
+                    <Stethoscope className="h-4 w-4" />
+                  </Link>
                 </Button>
-              </Link>
+              </>
             )}
 
             {/* Patient Links */}
             {user?.role === "PATIENT" && (
               <div className="flex items-center space-x-2">
-                <Link href="/appointments">
-                  <Button
-                    variant="outline"
-                    className="hidden md:inline-flex items-center gap-2"
-                  >
+                <Button
+                  variant="outline"
+                  className="hidden md:inline-flex items-center gap-2"
+                  asChild
+                >
+                  <Link href="/appointments">
                     <Calendar className="h-4 w-4" />
                     My Appointments
-                  </Button>
-                  <Button variant="ghost" className="md:hidden w-10 h-10 p-0">
+                  </Link>
+                </Button>
+                <Button variant="ghost" className="md:hidden w-10 h-10 p-0" asChild>
+                  <Link href="/appointments">
                     <Calendar className="h-4 w-4" />
-                  </Button>
-                </Link>
-                <Link href="/medical-details">
-                  <Button
-                    variant="outline"
-                    className="hidden md:inline-flex items-center gap-2"
-                  >
+                  </Link>
+                </Button>
+                <Button
+                  variant="outline"
+                  className="hidden md:inline-flex items-center gap-2"
+                  asChild
+                >
+                  <Link href="/medical-details">
                     <User className="h-4 w-4" />
                     Medical Details
-                  </Button>
-                  <Button variant="ghost" className="md:hidden w-10 h-10 p-0">
+                  </Link>
+                </Button>
+                <Button variant="ghost" className="md:hidden w-10 h-10 p-0" asChild>
+                  <Link href="/medical-details">
                     <User className="h-4 w-4" />
-                  </Button>
-                </Link>
+                  </Link>
+                </Button>
               </div>
             )}
 
             {/* Unassigned Role */}
             {user?.role === "UNASSIGNED" && (
-              <Link href="/onboarding">
+              <>
                 <Button
                   variant="outline"
                   className="hidden md:inline-flex items-center gap-2"
+                  asChild
                 >
-                  <User className="h-4 w-4" />
-                  Complete Profile
+                  <Link href="/onboarding">
+                    <User className="h-4 w-4" />
+                    Complete Profile
+                  </Link>
                 </Button>
-                <Button variant="ghost" className="md:hidden w-10 h-10 p-0">
-                  <User className="h-4 w-4" />
+                <Button variant="ghost" className="md:hidden w-10 h-10 p-0" asChild>
+                  <Link href="/onboarding">
+                    <User className="h-4 w-4" />
+                  </Link>
                 </Button>
-              </Link>
+              </>
             )}
           </SignedIn>
 

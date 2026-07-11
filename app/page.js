@@ -35,7 +35,7 @@ export default function Home() {
                   size="lg"
                   className="bg-emerald-600 text-white hover:bg-emerald-700"
                 >
-                  <Link href="/onboarding">
+                  <Link href="/doctors">
                     Get Started <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
                 </Button>
@@ -45,7 +45,7 @@ export default function Home() {
                   size="lg"
                   className="border-emerald-700/30 hover:bg-muted/80"
                 >
-                  <Link href="/doctors">Find Doctors</Link>
+                  <Link href="/#pricing">View Pricing</Link>
                 </Button>
               </div>
             </div>

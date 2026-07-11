@@ -45,6 +45,7 @@ const medicalSchema = z.object({
   height: z.number().min(0).optional().nullable(),
   allergies: z.string().optional().nullable(),
   medicalHistory: z.string().optional().nullable(),
+  primaryProblem: z.string().optional().nullable(),
 });
 
 export default function MedicalDetailsPage() {
@@ -60,6 +61,7 @@ export default function MedicalDetailsPage() {
       height: null,
       allergies: "",
       medicalHistory: "",
+      primaryProblem: "",
     },
   });
 
@@ -77,6 +79,7 @@ export default function MedicalDetailsPage() {
             height: medicalDetails.height || null,
             allergies: medicalDetails.allergies || "",
             medicalHistory: medicalDetails.medicalHistory || "",
+            primaryProblem: medicalDetails.primaryProblem || "",
           });
         }
       } catch (err) {
@@ -276,6 +279,27 @@ export default function MedicalDetailsPage() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
+                  <FormField
+                    control={form.control}
+                    name="primaryProblem"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Primary Health concern / Problem</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="e.g. Fever, Cough, Stomach Pain..."
+                            {...field}
+                            value={field.value || ""}
+                          />
+                        </FormControl>
+                        <FormDescription>
+                          Your primary health concern specified during onboarding
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
                   <FormField
                     control={form.control}
                     name="allergies"

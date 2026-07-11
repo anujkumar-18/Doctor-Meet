@@ -28,14 +28,19 @@ export async function setUserRole(formData) {
   }
 
   try {
-    // For patient role - simple update
+    // For patient role - need age and primary problem
     if (role === "PATIENT") {
+      const age = parseInt(formData.get("age"), 10);
+      const primaryProblem = formData.get("primaryProblem");
+
       await db.user.update({
         where: {
           clerkUserId: userId,
         },
         data: {
           role: "PATIENT",
+          age: isNaN(age) ? null : age,
+          primaryProblem: primaryProblem || null,
         },
       });
 

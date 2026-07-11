@@ -5,6 +5,7 @@ import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 import { deductCreditsForAppointment } from "@/actions/credits";
 import { addDays, addMinutes, format, isBefore, endOfDay } from "date-fns";
+import { sendAppointmentReceipt } from "@/lib/email";
 
 /**
  * Book a new appointment with a doctor
@@ -128,6 +129,113 @@ export async function bookAppointment(formData) {
     return { success: true, appointment: appointment };
   } catch (error) {
     console.error("Failed to book appointment:", error);
+    return { success: false, error: error.message || "Failed to book appointment" };
+  }
+}
+
+/**
+ * Book appointment after payment confirmation — sends email receipt
+ */
+export async function bookAppointmentWithPayment(formData) {
+  const { userId } = await auth();
+
+  if (!userId) {
+    throw new Error("Unauthorized");
+  }
+
+  try {
+    // Get the patient user
+    const patient = await db.user.findUnique({
+      where: { clerkUserId: userId, role: "PATIENT" },
+    });
+
+    if (!patient) {
+      throw new Error("Patient not found");
+    }
+
+    // Parse form data
+    const doctorId = formData.get("doctorId");
+    const startTime = new Date(formData.get("startTime"));
+    const endTime = new Date(formData.get("endTime"));
+    const patientDescription = formData.get("description") || null;
+    const transactionId = formData.get("transactionId") || "UPI-" + Date.now();
+    const amountPaid = formData.get("amountPaid") || "299";
+
+    if (!doctorId || !startTime || !endTime) {
+      throw new Error("Doctor, start time, and end time are required");
+    }
+
+    // Validate doctor
+    const doctor = await db.user.findUnique({
+      where: { id: doctorId, role: "DOCTOR", verificationStatus: "VERIFIED" },
+    });
+
+    if (!doctor) {
+      throw new Error("Doctor not found or not verified");
+    }
+
+    // Check credit balance (2 credits needed)
+    if (patient.credits < 2) {
+      throw new Error("Insufficient credits to book an appointment");
+    }
+
+    // Check slot availability
+    const overlappingAppointment = await db.appointment.findFirst({
+      where: {
+        doctorId,
+        status: "SCHEDULED",
+        OR: [
+          { startTime: { lte: startTime }, endTime: { gt: startTime } },
+          { startTime: { lt: endTime }, endTime: { gte: endTime } },
+          { startTime: { gte: startTime }, endTime: { lte: endTime } },
+        ],
+      },
+    });
+
+    if (overlappingAppointment) {
+      throw new Error("This time slot is already booked");
+    }
+
+    // Deduct credits
+    const { success, error } = await deductCreditsForAppointment(patient.id, doctor.id);
+    if (!success) {
+      throw new Error(error || "Failed to deduct credits");
+    }
+
+    // Create appointment
+    const appointment = await db.appointment.create({
+      data: {
+        patientId: patient.id,
+        doctorId: doctor.id,
+        startTime,
+        endTime,
+        patientDescription,
+        status: "SCHEDULED",
+      },
+    });
+
+    // Send email receipt
+    try {
+      await sendAppointmentReceipt({
+        patientEmail: patient.email,
+        patientName: patient.name || "Patient",
+        doctorName: doctor.name,
+        doctorSpecialty: doctor.specialty || "General",
+        appointmentDate: format(startTime, "EEEE, MMMM d, yyyy"),
+        appointmentTime: `${format(startTime, "h:mm a")} - ${format(endTime, "h:mm a")}`,
+        amountPaid,
+        transactionId,
+        appointmentId: appointment.id,
+      });
+    } catch (emailError) {
+      // Don't fail appointment booking if email fails
+      console.error("Failed to send receipt email:", emailError);
+    }
+
+    revalidatePath("/appointments");
+    return { success: true, appointment };
+  } catch (error) {
+    console.error("Failed to book appointment with payment:", error);
     return { success: false, error: error.message || "Failed to book appointment" };
   }
 }

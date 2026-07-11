@@ -231,6 +231,7 @@ export function DoctorProfile({ doctor, availableDays }) {
                         slot={selectedSlot}
                         onBack={() => setSelectedSlot(null)}
                         onComplete={handleBookingComplete}
+                        doctorName={doctor.name}
                       />
                     )}
                   </>

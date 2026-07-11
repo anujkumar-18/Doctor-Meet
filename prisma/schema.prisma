@@ -28,6 +28,7 @@ model User {
   weight            Float?
   height            Float?
   age               Int?
+  primaryProblem    String?   @db.Text
   
   // Doctor-specific fields
   specialty         String?

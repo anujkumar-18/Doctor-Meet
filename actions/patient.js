@@ -77,6 +77,7 @@ export async function getPatientMedicalDetails() {
         height: true,
         allergies: true,
         medicalHistory: true,
+        primaryProblem: true,
       },
     });
 
@@ -104,6 +105,7 @@ export async function updatePatientMedicalDetails(formData) {
     const height = parseFloat(formData.get("height"));
     const allergies = formData.get("allergies");
     const medicalHistory = formData.get("medicalHistory");
+    const primaryProblem = formData.get("primaryProblem");
 
     await db.user.update({
       where: {
@@ -117,6 +119,7 @@ export async function updatePatientMedicalDetails(formData) {
         height: isNaN(height) ? null : height,
         allergies,
         medicalHistory,
+        primaryProblem,
       },
     });
 
