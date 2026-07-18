@@ -45,7 +45,7 @@ export default function ChatbotWidget() {
   // Initialize messages
   useEffect(() => {
     if (messages.length === 0) {
-      let welcomeMsg = "Hello! I am Doctors Meet AI assistant. How can I help you feel better today?";
+      let welcomeMsg = "Hello! I am Docfone AI assistant. How can I help you feel better today?";
       
       if (userProfile && userProfile.role === "PATIENT") {
         const name = userProfile.name ? userProfile.name.split(" ")[0] : "there";
@@ -181,7 +181,7 @@ export default function ChatbotWidget() {
                 <Sparkles className="w-4 h-4 text-emerald-400 animate-pulse" />
               </div>
               <div>
-                <CardTitle className="text-sm font-semibold text-white">Doctors Meet AI</CardTitle>
+                <CardTitle className="text-sm font-semibold text-white">Docfone AI</CardTitle>
                 <div className="flex items-center space-x-1">
                   <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-ping"></span>
                   <span className="text-[10px] text-emerald-400 font-medium">Assistant Active</span>

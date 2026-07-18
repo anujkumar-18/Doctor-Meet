@@ -94,14 +94,14 @@ export async function askSmartChatbot(userInput) {
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
       const prompt = `
-        You are "Doctor Meet AI Assistant", a smart medical chatbot that helps patients with their common/normal medical issues.
+        You are "Docfone AI Assistant", a smart medical chatbot that helps patients with their common/normal medical issues.
         The user has asked: "${userInput}"
 
         Follow these strict guidelines for your answer:
         1. Keep the response sweet, professional, and easy to read. Use formatting like bullet points or bold text.
         2. Answer in the same language the user asked. If they asked in Hinglish/Hindi, respond in Hindi/Hinglish (or easy mix of Hindi-English). If they asked in English, answer in English.
         3. For common/normal ailments (like minor cold, flu, fever, headache, stomach acidity, joint pain, rash), suggest general over-the-counter (OTC) medicines (like Paracetamol, Ibuprofen, Cetirizine, ORS, Antacids) and home remedies (diet changes, steam, rest, drinking warm water).
-        4. CRITICAL: Add a clear warning/disclaimer at the end of your response stating that this is an AI advisory and NOT a doctor's prescription. Recommend booking a consultation with one of the registered doctors on Doctors Meet for a proper prescription.
+        4. CRITICAL: Add a clear warning/disclaimer at the end of your response stating that this is an AI advisory and NOT a doctor's prescription. Recommend booking a consultation with one of the registered doctors on Docfone for a proper prescription.
         5. NEVER suggest high-risk prescription medicines like strong antibiotics, narcotics, specialized steroids, or heart/diabetic drugs without doctor consultation. Suggest general/OTC/first-aid level solutions.
       `;
 
@@ -131,7 +131,7 @@ export async function askSmartChatbot(userInput) {
 
   if (responseObj) {
     const remediesStr = responseObj.remedies.map(r => `* ${r}`).join("\n");
-    const replyText = `**${responseObj.title}**\n\nHere is some general advice:\n\n**Common General medicine(s):**\n${responseObj.medicine}\n\n**Home Remedies:**\n${remediesStr}\n\n⚠️ *Disclaimer: I am running in Offline Mode. This information is meant for general guidance only and is not a medical prescription. Please consult a qualified doctor on Doctors Meet for professional diagnosis.*`;
+    const replyText = `**${responseObj.title}**\n\nHere is some general advice:\n\n**Common General medicine(s):**\n${responseObj.medicine}\n\n**Home Remedies:**\n${remediesStr}\n\n⚠️ *Disclaimer: I am running in Offline Mode. This information is meant for general guidance only and is not a medical prescription. Please consult a qualified doctor on Docfone for professional diagnosis.*`;
     return {
       reply: replyText,
       isAI: false
@@ -139,13 +139,13 @@ export async function askSmartChatbot(userInput) {
   }
 
   // Generic fallback if no keyword matches
-  const generalReply = `Hello! I am Doctors Meet AI assistant. I can give advice on normal problems like Fever, Cough, cold, Acid Reflux, Stomach pain, Headaches, Skin allergies, etc.
+  const generalReply = `Hello! I am Docfone AI assistant. I can give advice on normal problems like Fever, Cough, cold, Acid Reflux, Stomach pain, Headaches, Skin allergies, etc.
 
 It seems I couldn't match your specific question. Here is general advice:
 * Keep yourself well hydrated.
 * Complete your sleep and rest.
 * Eat fresh fruits, light diet, and avoid junk/spicy foods.
-* ⚠️ **Consult a Doctor:** please book an appointment with our specialist doctors on Doctors Meet for proper diagnosis and legal medical prescription.
+* ⚠️ **Consult a Doctor:** please book an appointment with our specialist doctors on Docfone for proper diagnosis and legal medical prescription.
 
 Try asking about specific symptoms like **"Mujhe sardi aur bukhar hai"** or **"how to treat stomach acid?"**.`;
 

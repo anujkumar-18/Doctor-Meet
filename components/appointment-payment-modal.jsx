@@ -36,7 +36,7 @@ export function AppointmentPaymentModal({
   const [step, setStep] = useState("payment"); // "payment" | "confirm"
   const [transactionId, setTransactionId] = useState("");
 
-  const upiUrl = `upi://pay?pa=${UPI_ID}&am=${APPOINTMENT_FEE}&tn=DocMeet_Appointment&cu=INR`;
+  const upiUrl = `upi://pay?pa=${UPI_ID}&am=${APPOINTMENT_FEE}&tn=Docfone_Appointment&cu=INR`;
   const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiUrl)}&bgcolor=ffffff&color=000000&margin=10`;
 
   const copyUpiId = () => {

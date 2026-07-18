@@ -26,7 +26,7 @@ export function QRPaymentModal({ isOpen, onClose, plan }) {
   };
 
   const openWhatsApp = () => {
-    const message = `Hi, I just paid ₹${plan.price} for the ${plan.name} plan on MediMeet. Here is the screenshot of my payment. Please add ${plan.credits} credits to my account.`;
+    const message = `Hi, I just paid ₹${plan.price} for the ${plan.name} plan on Docfone. Here is the screenshot of my payment. Please add ${plan.credits} credits to my account.`;
     window.open(`https://wa.me/918115462049?text=${encodeURIComponent(message)}`, "_blank");
   };
 
