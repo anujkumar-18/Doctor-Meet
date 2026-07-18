@@ -438,7 +438,7 @@ export default function LocationDoctorModal() {
                         {/* Actions */}
                         <div className="flex gap-2 mt-2">
                           <Link
-                            href={`/doctor/${doc.id}`}
+                            href={`/doctors/${encodeURIComponent(doc.specialty || "General Physician")}/${doc.id}`}
                             onClick={handleClose}
                             className="flex-1 text-center text-[11px] font-semibold py-1.5 px-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white transition-colors"
                           >

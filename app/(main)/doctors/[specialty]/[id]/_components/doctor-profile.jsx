@@ -125,7 +125,7 @@ export function DoctorProfile({ doctor, availableDays }) {
                       className="border-emerald-600 text-emerald-400 hover:bg-emerald-900/20"
                       asChild
                     >
-                      <a href="tel:8115462049">
+                      <a href={`tel:${doctor.phone || "8115462049"}`}>
                         Call Now
                       </a>
                     </Button>
@@ -135,7 +135,7 @@ export function DoctorProfile({ doctor, availableDays }) {
                       asChild
                     >
                       <a 
-                        href="https://wa.me/918115462049" 
+                        href={`https://wa.me/91${doctor.phone || "8115462049"}`} 
                         target="_blank" 
                         rel="noopener noreferrer"
                       >
