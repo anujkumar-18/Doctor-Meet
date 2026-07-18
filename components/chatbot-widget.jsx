@@ -45,7 +45,7 @@ export default function ChatbotWidget() {
   // Initialize messages
   useEffect(() => {
     if (messages.length === 0) {
-      let welcomeMsg = "Hello! I am Docfone AI assistant. How can I help you feel better today?";
+      let welcomeMsg = "Hello! I am DocBuddy 🤖, your AI health assistant. How can I help you feel better today? 🌿";
       
       if (userProfile && userProfile.role === "PATIENT") {
         const name = userProfile.name ? userProfile.name.split(" ")[0] : "there";
@@ -53,9 +53,9 @@ export default function ChatbotWidget() {
         const age = userProfile.age;
 
         if (problem) {
-          welcomeMsg = `Hello ${name}! I see in your profile that you are ${age ? `${age} years old and ` : ""}experiencing **"${problem}"**.\n\nHow are you feeling now? I can recommend some general over-the-counter medicine or home remedies.`;
+          welcomeMsg = `Hello ${name}! I am **DocBuddy** 🤖\n\nI see you are ${age ? `${age} years old and ` : ""}experiencing **"${problem}"**.\n\nHow are you feeling now? I can recommend some general over-the-counter medicine or home remedies.`;
         } else {
-          welcomeMsg = `Hello ${name}! How can I help you today? Ask me about common problems like fever, cough, cold, headaches, or stomach acidity.`;
+          welcomeMsg = `Hello ${name}! I am **DocBuddy** 🌿\n\nHow can I help you today? Ask me about common problems like fever, cough, cold, headaches, or stomach acidity.`;
         }
       }
 
@@ -181,7 +181,7 @@ export default function ChatbotWidget() {
                 <Sparkles className="w-4 h-4 text-emerald-400 animate-pulse" />
               </div>
               <div>
-                <CardTitle className="text-sm font-semibold text-white">Docfone AI</CardTitle>
+                <CardTitle className="text-sm font-semibold text-white">DocBuddy AI 🩺</CardTitle>
                 <div className="flex items-center space-x-1">
                   <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-ping"></span>
                   <span className="text-[10px] text-emerald-400 font-medium">Assistant Active</span>
@@ -242,7 +242,7 @@ export default function ChatbotWidget() {
               <div className="flex items-start space-x-2">
                 <div className="bg-zinc-900 border border-emerald-950/50 rounded-2xl rounded-tl-none px-4 py-3 flex items-center space-x-2">
                   <Loader2 className="w-4 h-4 text-emerald-400 animate-spin" />
-                  <span className="text-xs text-gray-400">Typing help advice...</span>
+                  <span className="text-xs text-gray-400">DocBuddy is typing...</span>
                 </div>
               </div>
             )}
@@ -253,16 +253,26 @@ export default function ChatbotWidget() {
           <div className="px-4 py-2 bg-emerald-900/10 border-t border-emerald-950 flex items-center justify-between text-xs">
             <span className="text-gray-400 flex items-center gap-1">
               <Info className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-              Need formal medical prescription?
+              Need a real doctor?
             </span>
-            <Link 
-              href="/doctors" 
-              className="text-emerald-400 hover:text-emerald-300 font-semibold flex items-center gap-0.5 underline transition-colors"
-              onClick={() => setIsOpen(false)}
-            >
-              <Calendar className="w-3 h-3 inline shrink-0" />
-              Book Doctor
-            </Link>
+            <div className="flex gap-2">
+              <Link 
+                href="/appointments" 
+                className="text-emerald-400 hover:text-emerald-300 font-semibold flex items-center gap-0.5 underline transition-colors"
+                onClick={() => setIsOpen(false)}
+              >
+                <Calendar className="w-3 h-3 inline shrink-0" />
+                My Appts
+              </Link>
+              <Link 
+                href="/doctors" 
+                className="text-emerald-400 hover:text-emerald-300 font-semibold flex items-center gap-0.5 underline transition-colors"
+                onClick={() => setIsOpen(false)}
+              >
+                <Calendar className="w-3 h-3 inline shrink-0" />
+                Book
+              </Link>
+            </div>
           </div>
 
           {/* Form Input */}
@@ -272,7 +282,7 @@ export default function ChatbotWidget() {
           >
             <Input
               type="text"
-              placeholder="Ask about cold, fever, stomach ache..."
+              placeholder="Ask DocBuddy about your symptoms..."
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               className="flex-1 bg-zinc-900/80 border-emerald-950/50 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 text-sm h-10 text-white placeholder-gray-500"
@@ -291,20 +301,44 @@ export default function ChatbotWidget() {
       )}
 
       {/* Floating Toggle Button */}
-      <Button
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-14 h-14 rounded-full bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 shadow-lg shadow-emerald-900/30 flex items-center justify-center group overflow-hidden border border-emerald-400/20 relative transition-transform duration-300 hover:scale-105 active:scale-95"
-      >
-        <span className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-200"></span>
-        {isOpen ? (
-          <X className="w-6 h-6 text-white stroke-[2.5]" />
-        ) : (
-          <div className="relative">
-            <MessageSquareHeart className="w-6 h-6 text-white group-hover:scale-110 transition-transform duration-200" />
-            <span className="absolute -top-1 -right-1 bg-amber-400 w-2.5 h-2.5 rounded-full border-2 border-emerald-600 animate-pulse"></span>
-          </div>
-        )}
-      </Button>
+      <div className="animate-docbuddy-float relative">
+        <style dangerouslySetInnerHTML={{__html: `
+          @keyframes docbuddy-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+          }
+          .animate-docbuddy-float {
+            animation: docbuddy-float 3s ease-in-out infinite;
+          }
+        `}} />
+        
+        <Button
+          onClick={() => setIsOpen(!isOpen)}
+          className="w-20 h-20 rounded-full p-0 overflow-hidden shadow-2xl bg-zinc-950 border-2 border-emerald-500/50 hover:border-emerald-400 transition-all duration-300 hover:scale-105 active:scale-95 flex items-center justify-center group relative"
+        >
+          {isOpen ? (
+            <div className="w-full h-full relative bg-zinc-950 flex items-center justify-center">
+              <img 
+                src="/docbuddy.jpg" 
+                alt="DocBuddy" 
+                className="w-full h-full object-cover opacity-30 group-hover:opacity-15 transition-opacity"
+              />
+              <X className="absolute w-8 h-8 text-emerald-400 stroke-[2.5]" />
+            </div>
+          ) : (
+            <div className="w-full h-full relative">
+              <img 
+                src="/docbuddy.jpg" 
+                alt="DocBuddy" 
+                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+              />
+              <span className="absolute top-1 right-1 bg-emerald-500 w-4 h-4 rounded-full border-2 border-zinc-950 flex items-center justify-center animate-pulse">
+                <span className="w-1.5 h-1.5 bg-white rounded-full"></span>
+              </span>
+            </div>
+          )}
+        </Button>
+      </div>
     </div>
   );
 }

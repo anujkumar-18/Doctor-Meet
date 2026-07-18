@@ -406,7 +406,7 @@ export default function LocationDoctorModal() {
                         <div className="flex items-start justify-between gap-2">
                           <div className="min-w-0">
                             <p className="text-sm font-semibold text-white truncate">
-                              Dr. {doc.name}
+                              {doc.name?.startsWith("Dr.") ? doc.name : `Dr. ${doc.name}`}
                             </p>
                             <p className="text-xs text-emerald-400 truncate">{doc.specialty || "General Physician"}</p>
                           </div>

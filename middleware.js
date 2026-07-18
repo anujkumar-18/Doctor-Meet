@@ -5,7 +5,6 @@ const isProtectedRoute = createRouteMatcher([
   "/onboarding(.*)",
   "/doctor(.*)",
   "/admin(.*)",
-  "/video-call(.*)",
   "/appointments(.*)",
   "/medical-details(.*)",
 ]);
@@ -39,7 +38,6 @@ export default clerkMiddleware(async (auth, req) => {
     path.startsWith("/onboarding") ||
     path.startsWith("/doctor") ||
     path.startsWith("/admin") ||
-    path.startsWith("/video-call") ||
     path.startsWith("/appointments") ||
     path.startsWith("/medical-details");
 

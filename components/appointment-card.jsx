@@ -9,7 +9,6 @@ import {
   Calendar,
   Clock,
   User,
-  Video,
   Stethoscope,
   X,
   Edit,
@@ -35,6 +34,7 @@ import {
 import useFetch from "@/hooks/use-fetch";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export function AppointmentCard({
   appointment,
@@ -147,7 +147,7 @@ export function AppointmentCard({
 
   // Handle direct phone call
   const handleDirectCall = () => {
-    const phoneNumber = "8115462049";
+    const phoneNumber = appointment.doctor?.phone || "8115462049";
     window.open(`tel:+91${phoneNumber}`, "_blank");
   };
 
@@ -288,14 +288,15 @@ export function AppointmentCard({
                 >
                   View Details
                 </Button>
-                {appointment.status === "SCHEDULED" && isAppointmentActive() && (
+                {appointment.status === "SCHEDULED" && isAppointmentActive() && appointment.doctor?.phone && (
                   <Button
                     size="sm"
-                    className="bg-emerald-600 hover:bg-emerald-700"
+                    variant="outline"
+                    className="border-emerald-900/30 text-emerald-400"
                     onClick={handleDirectCall}
                   >
                     <Phone className="h-4 w-4 mr-1" />
-                    Call Doctor
+                    Call
                   </Button>
                 )}
               </div>
@@ -418,7 +419,7 @@ export function AppointmentCard({
                     onClick={handleDirectCall}
                   >
                     <Phone className="h-4 w-4 mr-2" />
-                    Direct Call
+                    Direct Phone Call
                   </Button>
                 </div>
               </div>

@@ -1,4 +1,4 @@
-import { User, Star, Calendar, MessageSquare, MapPin } from "lucide-react";
+import { User, Star, Calendar, MessageSquare, MapPin, Phone } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -27,7 +27,7 @@ export function DoctorCard({ doctor }) {
           <div className="flex-1 w-full min-w-0">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5 mb-2">
               <h3 className="font-semibold text-white text-lg sm:text-xl truncate">
-                Dr. {doctor.name}
+                {doctor.name?.startsWith("Dr.") ? doctor.name : `Dr. ${doctor.name}`}
               </h3>
               <Badge
                 variant="outline"

@@ -91,10 +91,10 @@ export async function askSmartChatbot(userInput) {
   // If Gemini API Key is available, use it!
   if (genAI) {
     try {
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
       const prompt = `
-        You are "Docfone AI Assistant", a smart medical chatbot that helps patients with their common/normal medical issues.
+        You are "DocBuddy", a friendly and smart AI health assistant for Docfone platform that helps patients with common/normal medical issues.
         The user has asked: "${userInput}"
 
         Follow these strict guidelines for your answer:
@@ -131,7 +131,7 @@ export async function askSmartChatbot(userInput) {
 
   if (responseObj) {
     const remediesStr = responseObj.remedies.map(r => `* ${r}`).join("\n");
-    const replyText = `**${responseObj.title}**\n\nHere is some general advice:\n\n**Common General medicine(s):**\n${responseObj.medicine}\n\n**Home Remedies:**\n${remediesStr}\n\n⚠️ *Disclaimer: I am running in Offline Mode. This information is meant for general guidance only and is not a medical prescription. Please consult a qualified doctor on Docfone for professional diagnosis.*`;
+    const replyText = `**${responseObj.title}**\n\nHere is some general advice:\n\n**Common General medicine(s):**\n${responseObj.medicine}\n\n**Home Remedies:**\n${remediesStr}\n\n⚠️ *Disclaimer: I'm DocBuddy running in Offline Mode. This information is general guidance only and NOT a medical prescription. Please consult a qualified doctor on Docfone for proper diagnosis.*`;
     return {
       reply: replyText,
       isAI: false
@@ -139,15 +139,17 @@ export async function askSmartChatbot(userInput) {
   }
 
   // Generic fallback if no keyword matches
-  const generalReply = `Hello! I am Docfone AI assistant. I can give advice on normal problems like Fever, Cough, cold, Acid Reflux, Stomach pain, Headaches, Skin allergies, etc.
+  const generalReply = `Hello! I'm **DocBuddy** 🤖, your AI health assistant on Docfone!
 
-It seems I couldn't match your specific question. Here is general advice:
-* Keep yourself well hydrated.
-* Complete your sleep and rest.
-* Eat fresh fruits, light diet, and avoid junk/spicy foods.
-* ⚠️ **Consult a Doctor:** please book an appointment with our specialist doctors on Docfone for proper diagnosis and legal medical prescription.
+I can help with common problems like Fever, Cough, Cold, Acid Reflux, Stomach ache, Headaches, Skin allergies, Weakness, etc.
 
-Try asking about specific symptoms like **"Mujhe sardi aur bukhar hai"** or **"how to treat stomach acid?"**.`;
+It seems I couldn't recognize your specific question. Here is general advice:
+* Keep yourself well hydrated throughout the day.
+* Get complete rest and 7-8 hours of sleep.
+* Eat fresh fruits, light meals, avoid junk/spicy food.
+* ⚠️ **Consult a Doctor:** Book an appointment with our expert doctors on Docfone for proper diagnosis and prescription.
+
+Try asking me specific symptoms like **"I have fever and cold"** or **"pet mein dard ho raha hai"** 😊`;
 
   return {
     reply: generalReply,

@@ -106,7 +106,7 @@ export function PendingPayouts({ payouts }) {
                         </div>
                         <div className="flex-1">
                           <h3 className="font-medium text-white">
-                            Dr. {payout.doctor.name}
+                            {payout.doctor.name?.startsWith("Dr.") ? payout.doctor.name : `Dr. ${payout.doctor.name}`}
                           </h3>
                           <p className="text-sm text-muted-foreground">
                             {payout.doctor.specialty}
@@ -196,7 +196,7 @@ export function PendingPayouts({ payouts }) {
                       Name
                     </p>
                     <p className="text-white">
-                      Dr. {selectedPayout.doctor.name}
+                      {selectedPayout.doctor.name?.startsWith("Dr.") ? selectedPayout.doctor.name : `Dr. ${selectedPayout.doctor.name}`}
                     </p>
                   </div>
                   <div>
@@ -330,8 +330,8 @@ export function PendingPayouts({ payouts }) {
                   This action will:
                   <ul className="mt-2 space-y-1 list-disc pl-4">
                     <li>
-                      Deduct {selectedPayout.credits} credits from Dr.{" "}
-                      {selectedPayout.doctor.name}'s account
+                      Deduct {selectedPayout.credits} credits from{" "}
+                      {selectedPayout.doctor.name?.startsWith("Dr.") ? selectedPayout.doctor.name : `Dr. ${selectedPayout.doctor.name}`}'s account
                     </li>
                     <li>Mark the payout as PROCESSED</li>
                     <li>This action cannot be undone</li>
@@ -343,7 +343,7 @@ export function PendingPayouts({ payouts }) {
                 <div className="flex justify-between mb-2">
                   <span className="text-muted-foreground">Doctor:</span>
                   <span className="text-white">
-                    Dr. {selectedPayout.doctor.name}
+                    {selectedPayout.doctor.name?.startsWith("Dr.") ? selectedPayout.doctor.name : `Dr. ${selectedPayout.doctor.name}`}
                   </span>
                 </div>
                 <div className="flex justify-between mb-2">
