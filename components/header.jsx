@@ -13,17 +13,15 @@ import Link from "next/link";
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { checkUser } from "@/lib/checkUser";
 import { Badge } from "./ui/badge";
-import { checkAndAllocateCredits } from "@/actions/credits";
+import CreditInitializer from "@/components/credit-initializer";
 import Image from "next/image";
 
 export default async function Header() {
   const user = await checkUser();
-  if (user?.role === "PATIENT") {
-    await checkAndAllocateCredits(user);
-  }
 
   return (
     <header className="fixed top-0 w-full border-b bg-background/80 backdrop-blur-md z-10 supports-[backdrop-filter]:bg-background/60">
+      <CreditInitializer user={user} />
       <nav className="container mx-auto px-4 h-16 flex items-center justify-between">
         <div className="flex items-center gap-4 lg:gap-8">
           <Link href="/" className="flex items-center gap-2 cursor-pointer">

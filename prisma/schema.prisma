@@ -47,6 +47,10 @@ model User {
   availabilities      Availability[]
   transactions        CreditTransaction[]
   payouts             Payout[]
+
+  @@index([role, verificationStatus])
+  @@index([location])
+  @@index([specialty])
 }
 
 model Review {
