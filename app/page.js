@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Stethoscope } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import Pricing from "@/components/pricing";
@@ -30,23 +31,24 @@ export default function Home() {
                 journey all in one secure platform.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button
-                  asChild
-                  size="lg"
-                  className="bg-emerald-600 text-white hover:bg-emerald-700"
+                <Link
+                  href="/doctors"
+                  className={cn(
+                    buttonVariants({ size: "lg" }),
+                    "bg-emerald-600 text-white hover:bg-emerald-700 font-medium"
+                  )}
                 >
-                  <Link href="/doctors">
-                    Get Started <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
-                </Button>
-                <Button
-                  asChild
-                  variant="outline"
-                  size="lg"
-                  className="border-emerald-700/30 hover:bg-muted/80"
+                  Get Started <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+                <Link
+                  href="/#pricing"
+                  className={cn(
+                    buttonVariants({ variant: "outline", size: "lg" }),
+                    "border-emerald-700/30 hover:bg-muted/80 font-medium text-white"
+                  )}
                 >
-                  <Link href="/#pricing">View Pricing</Link>
-                </Button>
+                  View Pricing
+                </Link>
               </div>
             </div>
 
@@ -56,6 +58,7 @@ export default function Home() {
                 alt="Doctor consultation"
                 fill
                 priority
+                sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover rounded-xl"
               />
             </div>
@@ -227,21 +230,24 @@ export default function Home() {
                   healthcare the way it should be.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <Button
-                    asChild
-                    size="lg"
-                    className="bg-emerald-600 text-white hover:bg-emerald-700"
+                  <Link
+                    href="/sign-up"
+                    className={cn(
+                      buttonVariants({ size: "lg" }),
+                      "bg-emerald-600 text-white hover:bg-emerald-700 font-medium"
+                    )}
                   >
-                    <Link href="/sign-up">Sign Up Now</Link>
-                  </Button>
-                  <Button
-                    asChild
-                    variant="outline"
-                    size="lg"
-                    className="border-emerald-700/30 hover:bg-muted/80"
+                    Sign Up Now
+                  </Link>
+                  <Link
+                    href="#pricing"
+                    className={cn(
+                      buttonVariants({ variant: "outline", size: "lg" }),
+                      "border-emerald-700/30 hover:bg-muted/80 font-medium text-white"
+                    )}
                   >
-                    <Link href="#pricing">View Pricing</Link>
-                  </Button>
+                    View Pricing
+                  </Link>
                 </div>
               </div>
 
