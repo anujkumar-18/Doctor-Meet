@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -9,13 +9,41 @@ import { MapPin, Search, X } from "lucide-react";
 export function LocationSearch() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [location, setLocation] = useState(searchParams.get("location") || "");
+  const initialLocation = searchParams.get("location") || "";
+  const [location, setLocation] = useState(initialLocation);
+  
+  // Track if this is the first render to avoid redundant push at init
+  const isFirstRender = useRef(true);
 
-  const handleSearch = (e) => {
+  // Sync state if URL changes externally
+  useEffect(() => {
+    setLocation(searchParams.get("location") || "");
+  }, [searchParams]);
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
+    const delayDebounceFn = setTimeout(() => {
+      const params = new URLSearchParams(window.location.search);
+      if (location.trim()) {
+        params.set("location", location.trim());
+      } else {
+        params.delete("location");
+      }
+      router.push(`?${params.toString()}`, { scroll: false });
+    }, 400); // 400ms debounce
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [location, router]);
+
+  const handleSearchSubmit = (e) => {
     e.preventDefault();
     const params = new URLSearchParams(searchParams);
-    if (location) {
-      params.set("location", location);
+    if (location.trim()) {
+      params.set("location", location.trim());
     } else {
       params.delete("location");
     }
@@ -30,7 +58,7 @@ export function LocationSearch() {
   };
 
   return (
-    <form onSubmit={handleSearch} className="flex gap-2 w-full max-w-md mb-6">
+    <form onSubmit={handleSearchSubmit} className="flex gap-2 w-full max-w-md mb-6">
       <div className="relative flex-grow">
         <MapPin className="absolute left-3 top-3 h-4 w-4 text-emerald-400" />
         <Input
