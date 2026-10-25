@@ -1,0 +1,12 @@
+﻿diff --git a/app/(main)/admin/page.jsx b/app/(main)/admin/page.jsx
+index 7519c09..8d6f781 100644
+--- a/app/(main)/admin/page.jsx
++++ b/app/(main)/admin/page.jsx
+@@ -3,6 +3,7 @@ import { PendingDoctors } from "./components/pending-doctors";
+ import { VerifiedDoctors } from "./components/verified-doctors";
+ import { PendingPayouts } from "./components/pending-payouts";
+ import {
++  getPendingDoctors,
+   getVerifiedDoctors,
+   getPendingPayouts,
+ } from "@/actions/admin";

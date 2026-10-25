@@ -39,6 +39,7 @@ export async function getPatientAppointments() {
             name: true,
             specialty: true,
             imageUrl: true,
+            phone: true,
           },
         },
       },

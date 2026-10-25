@@ -13,7 +13,9 @@ export default async function PatientAppointmentsPage() {
     redirect("/onboarding");
   }
 
-  const { appointments, error } = await getPatientAppointments();
+  const result = await getPatientAppointments();
+  const appointments = result?.appointments ?? [];
+  const error = result?.error ?? null;
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -34,9 +36,9 @@ export default async function PatientAppointmentsPage() {
         <CardContent>
           {error ? (
             <div className="text-center py-8">
-              <p className="text-red-400">Error: {error}</p>
+              <p className="text-red-400">Error loading appointments. Please try again.</p>
             </div>
-          ) : appointments?.length > 0 ? (
+          ) : appointments.length > 0 ? (
             <div className="space-y-4">
               {appointments.map((appointment) => (
                 <AppointmentCard
