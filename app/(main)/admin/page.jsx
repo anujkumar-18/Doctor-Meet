@@ -3,6 +3,7 @@ import { PendingDoctors } from "./components/pending-doctors";
 import { VerifiedDoctors } from "./components/verified-doctors";
 import { PendingPayouts } from "./components/pending-payouts";
 import {
+  getPendingDoctors,
   getVerifiedDoctors,
   getPendingPayouts,
 } from "@/actions/admin";

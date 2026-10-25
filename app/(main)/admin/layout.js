@@ -15,7 +15,7 @@ export default async function AdminLayout({ children }) {
 
   // Redirect if not an admin
   if (!isAdmin) {
-    redirect("/onboarding");
+    redirect("/");
   }
 
   return (
